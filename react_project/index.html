@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.class1{ color:red}
+		</style>
+	</head>
+	<body>
+		<div id="example"></div>
+		<div id="example2"></div>
+		<hr />
+		<div id="component"></div>
+		
+	</body>
+	
+	<!-- 1)react.js: React的核心库
+	2)react-dom.js: 提供操作DOM的react扩展库
+	3)babel.min.js: 解析JSX语法代码转为纯JS语法代码的库 -->
+	<script src="js/react.development.js"></script>
+	<script src="js/react-dom.development.js"></script>
+	<script src="js/babel.min.js"></script>
+	
+	<script type="text/babel">//必须声明babel
+		  // 创建虚拟DOM元素 千万不要加引号 jsx 语法 作用: 用来创建react虚拟DOM(元素)对象
+		  const vDom = <h1 data="aaa">Hello React<p>jsx语法</p></h1> 
+		ReactDOM.render(vDom,document.getElementById("example"));
+		
+		//React提供了一些API来创建一种 `特别` 的一般js对象  虚拟DOM对象最终都会被React转换为真实的DOM
+		var pelement = React.createElement('p',{id:'name',className:'class1'},'p标签段落');
+		
+		//1)渲染虚拟DOM  语法:ReactDOM.render(virtualDOM, containerDOM) 
+		ReactDOM.render(pelement,document.getElementById("example2"));
+		
+		//简单组件
+		function MyComponent(){
+			  return <h2>工厂函数组件(简单组件)</h2>
+		}
+		//复杂组件
+		class MyComponent2 extends React.Component{
+			constructor(props){
+				super(props);
+				//初始化状态  this代表组件对象
+				this.state={
+					isflag:true
+				}
+				//给方法绑定this
+				this.clickmes = this.clickmes.bind(this);
+			}
+			
+			//定义函数
+			clickmes(){
+				//新增函数的this值是undefind
+				let isflag = !this.state.isflag;
+				this.setState({isflag});
+			}
+			render(){
+				let {isflag} = this.state;
+				console.log(this) 
+				return <h1 onClick={this.clickmes}>{isflag==true?'我黑凤梨':'我擦'}</h1>
+			}
+		}
+		/* 1)组件名必须首字母大写
+		2)虚拟DOM元素只能有一个根元素
+		3)虚拟DOM元素必须有结束标签 */
+		
+		ReactDOM.render(<MyComponent2/>,document.getElementById("component"))
+		
+		
+		
+	</script>
+	
+</html>

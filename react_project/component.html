@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="example"></div>
+
+
+</body>
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/prop-types.js"></script>
+<script src="js/babel.min.js"></script>
+
+
+<script type="text/babel">
+    {/*功能：*/}
+    //react生命周期demo
+    class Life extends React.Component{
+
+        constructor(props) {
+            super(props);
+            this.state={
+                opacity : 1
+            }
+            this.unMount= this.unMount.bind(this);
+        }
+        componentWillMount(){
+            console.log("组件将要挂载，，，componentWillMount")
+        }
+        componentDidMount(){
+            this.intervalId =setInterval(function(){
+                let {opacity} = this.state;
+                opacity-=0.1;
+                if(opacity<=0){
+                    opacity=1;
+                }
+                this.setState({opacity});
+            }.bind(this),200);
+            console.log("组将已经挂载，，，componentDidMount")
+        }
+        componentWillUnMount(){
+            clearInterval(this.intervalId);
+            console.log("组件将要卸载，，，componentWillUnMount")
+        }
+        unMount(){
+           ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+        }
+
+        render(){
+           console.log("render")
+            let {opacity} = this.state;
+            return (<div>
+                <h1 style={{opacity:opacity,color:'red'}}>React太难了！！！</h1>
+                <input type="button" onClick={this.unMount} value="果断不学！"/>
+            </div>)
+        }
+
+    }
+    ReactDOM.render(<Life/>,document.getElementById('example'))
+
+
+</script>
+
+
+
+</html>

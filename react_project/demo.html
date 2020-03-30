@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="example"></div>
+
+
+</body>
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/prop-types.js"></script>
+
+<script src="js/babel.min.js"></script>
+
+
+<script type="text/babel">
+    {/*功能：实现一个输入框中输入内容，点击添加按钮，显示到下面的列表，按钮显示添加的内容长度*/}
+    //渲染静态组件内容  ：拆分为2个组件
+
+    //思路： 拆分组件： 添加组件和列表组件    一个总体组件
+
+    class Add extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state={};
+            this.addMethod=this.addMethod.bind(this);
+        }
+        addMethod(event){
+           const inputMsg = this.msginput.value;
+         //  var ty = event.target.value;
+          if(!inputMsg){
+              return
+          }
+            this.props.addMethod(inputMsg);
+            this.msginput.value="";
+        }
+        render(){
+            return <div>
+                <input ref={input=>this.msginput=input} />&nbsp;&nbsp;<input type="button" onClick={this.addMethod} value="添加"/>
+            </div>
+        }
+    }
+    Add.propTypes={
+        addMethod:PropTypes.func.isRequired
+    }
+
+
+    class List extends React.Component{
+        constructor(props) {
+            super(props)
+        }
+        render(){
+            const {todos} = this.props;
+            return <ul>
+                {todos.map((item,index) =>(<li key={index}>{item}</li>))}
+            </ul>
+        }
+    }
+    //属性类型约束
+    List.propTypes={
+        todos:PropTypes.array.isRequired
+    }
+
+    //
+    class App extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state={
+                todos:['吃饭','睡觉','打豆豆']
+            }
+            this.addHandle = this.addHandle.bind(this);
+        }
+        //添加的列表子项的方法
+        addHandle(item){
+            let {todos} = this.state;
+            todos.unshift(item);//向数组前追加元素
+            this.setState({todos});
+        }
+
+        render(){
+            const {todos} = this.state;
+            return <div>
+                <h1>an Simple add example</h1>
+                <Add addMethod={this.addHandle}/>
+                <List todos={todos}/>
+            </div>
+
+        }
+    }
+
+    ReactDOM.render(<App/>,document.getElementById("example"))
+
+</script>
+
+
+
+</html>

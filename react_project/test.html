@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="example"></div>
+
+
+</body>
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/prop-types.js"></script>
+
+<script src="js/babel.min.js"></script>
+
+
+<script type="text/babel">
+   class Mycomponent extends React.Component{
+        constructor(prop) {
+            console.log(prop)
+            super(prop);
+            this.state={flag:true}
+        }
+       render(){
+           console.log(this);
+           return <ul><li>姓名：{this.props.name}</li><li>性别：{this.props.sex}</li><li>年龄：{this.props.age}</li></ul>
+       }
+   }
+   //设置属性类型约束
+    /*Mycomponent.propTypes ={
+        name: React.PropTypes.string.isRequired
+    }*/
+    //设置默认值
+   Mycomponent.defaultProps={
+       sex:"男"
+   }
+
+   const msg ={
+       name:"rose",
+       sex:"男",
+       age:18
+   }
+    //... ES6新语法糖
+   //ReactDOM.render(<Mycomponent {...msg}/>,document.getElementById('example'));
+   ReactDOM.render(<Mycomponent name={msg.name} sex={msg.sex} age={msg.age}/>,document.getElementById('example'))
+</script>
+
+<script type="text/javascript">
+    function getmsg(...msg){
+        console.log(msg);
+    }
+    var name = 'rose',age=19;
+    getmsg(name,age)
+
+</script>
+
+
+</html>
